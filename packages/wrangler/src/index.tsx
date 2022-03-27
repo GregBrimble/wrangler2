@@ -899,13 +899,15 @@ export async function main(argv: string[]): Promise<void> {
       let zoneId: string | undefined;
       const hostPieces = typeof host === "string" ? host.split(".") : undefined;
 
-      while (hostPieces && hostPieces.length > 1) {
-        zoneId = await getZoneId(hostPieces.join("."));
-        if (zoneId) break;
-        hostPieces.shift();
-      }
-      if (host && !zoneId) {
-        throw new Error(`Could not find zone for ${hostLike}`);
+      if (!args.local) {
+        while (hostPieces && hostPieces.length > 1) {
+          zoneId = await getZoneId(hostPieces.join("."));
+          if (zoneId) break;
+          hostPieces.shift();
+        }
+        if (host && !zoneId) {
+          throw new Error(`Could not find zone for ${hostLike}`);
+        }
       }
 
       const zone =
