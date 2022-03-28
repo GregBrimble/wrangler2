@@ -98,6 +98,7 @@ async function renderDev({
   initialMode = "local",
   jsxFactory,
   jsxFragment,
+  tsconfig,
   localProtocol = "http",
   upstreamProtocol = "https",
   rules = [],
@@ -138,6 +139,7 @@ async function renderDev({
         upstreamProtocol={upstreamProtocol}
         jsxFactory={jsxFactory}
         jsxFragment={jsxFragment}
+        tsconfig={tsconfig}
         accountId={accountId}
         assetPaths={assetPaths}
         public={publicDir}

@@ -582,6 +582,12 @@ function normalizeAndValidateEnvironment(
       isString,
       "React.Fragment"
     ),
+    tsconfig: validateAndNormalizeTsconfig(
+      diagnostics,
+      topLevelEnv,
+      rawEnv,
+      configPath
+    ),
     rules: validateAndNormalizeRules(
       diagnostics,
       topLevelEnv,
@@ -690,6 +696,29 @@ function normalizeAndValidateEnvironment(
   };
 
   return environment;
+}
+
+function validateAndNormalizeTsconfig(
+  diagnostics: Diagnostics,
+  topLevelEnv: Environment | undefined,
+  rawEnv: RawEnvironment,
+  configPath: string | undefined
+) {
+  const tsconfig = inheritable(
+    diagnostics,
+    topLevelEnv,
+    rawEnv,
+    "tsconfig",
+    isString,
+    undefined
+  );
+
+  return configPath && tsconfig
+    ? path.relative(
+        process.cwd(),
+        path.join(path.dirname(configPath), tsconfig)
+      )
+    : tsconfig;
 }
 
 const validateAndNormalizeRules = (
